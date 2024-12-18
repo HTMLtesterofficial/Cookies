@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage Manager</title>
+    <style>
+        #cookieText, #changeButton, #deleteButton {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="cookieManager">
+        <p id="message"></p>
+        <input type="text" id="cookieTextBox" placeholder="Enter text">
+        <button id="saveButton">Save Text</button>
+        <p id="cookieText"></p>
+        <button id="changeButton">Change Text</button>
+        <button id="deleteButton">Delete Text</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let storedText = localStorage.getItem("bypasstext");
+            if (storedText) {
+                document.getElementById("message").textContent = "Stored text found: " + storedText;
+                document.getElementById("cookieText").textContent = storedText;
+                document.getElementById("changeButton").style.display = "inline";
+                document.getElementById("deleteButton").style.display = "inline";
+                document.getElementById("cookieText").style.display = "block";
+            } else {
+                document.getElementById("message").textContent = "No stored text found. Please enter text:";
+                document.getElementById("cookieTextBox").style.display = "block";
+                document.getElementById("saveButton").style.display = "block";
+            }
+
+            document.getElementById("saveButton").addEventListener("click", function() {
+                let text = document.getElementById("cookieTextBox").value;
+                localStorage.setItem("bypasstext", text);
+                location.reload();
+            });
+
+            document.getElementById("changeButton").addEventListener("click", function() {
+                document.getElementById("cookieTextBox").style.display = "block";
+                document.getElementById("saveButton").style.display = "block";
+                document.getElementById("cookieText").style.display = "none";
+                document.getElementById("changeButton").style.display = "none";
+                document.getElementById("deleteButton").style.display = "none";
+            });
+
+            document.getElementById("deleteButton").addEventListener("click", function() {
+                localStorage.removeItem("bypasstext");
+                location.reload();
+            });
+        });
+    </script>
+</body>
+</html>
